@@ -61,8 +61,9 @@ const exercises = async function () {
   `;
 
     try {
-      const data = await DB.all(request, ...params);
-      return { code: 200, data };
+      const rows = await DB.all(request, ...params);
+      const { count } = await DB.get(`SELECT COUNT(1) as 'count' FROM exercises`);
+      return { code: 200, data: { rows, count } };
     } catch (e) {
       return getServerError(e);
     }
